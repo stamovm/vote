@@ -1,17 +1,28 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useRef } from 'react'
 import { trpc } from '../utils/trpc'
 // import { prisma } from '../server/db/client'
 
 const QuestionCreator: React.FC = () => {
-  const { mutate } = trpc.useMutation('questions.create')
+  const inputRef = useRef(null)
+  const client = trpc.useContext()
+  const { mutate, isLoading } = trpc.useMutation('questions.create', {
+    onSuccess: (data) => {
+      // console.log('success data: ', data)
+      client.invalidateQueries(['questions.getAll'])
+      if (inputRef.current) inputRef.current.value = ''
+    },
+  })
+
   return (
     <input
+      ref={inputRef}
+      disabled={isLoading}
       type="text"
       className="my-6 p-2 text-center border-2 w-1/3"
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          console.log('val?: ', e.currentTarget.value)
           mutate({ question: e.currentTarget.value })
           e.currentTarget.value = ''
         }
@@ -22,7 +33,7 @@ const QuestionCreator: React.FC = () => {
 
 const Home: NextPage = () => {
   const { data } = trpc.useQuery(['questions.getAll'])
-  console.log('---- ', data)
+  // console.log('---- ', data)
 
   return (
     <>
