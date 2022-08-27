@@ -5,13 +5,14 @@ import { trpc } from '../utils/trpc'
 // import { prisma } from '../server/db/client'
 
 const QuestionCreator: React.FC = () => {
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const client = trpc.useContext()
   const { mutate, isLoading } = trpc.useMutation('questions.create', {
     onSuccess: (data) => {
       // console.log('success data: ', data)
       client.invalidateQueries(['questions.getAll'])
-      if (inputRef.current) inputRef.current.value = ''
+      if (!inputRef.current) return
+      inputRef.current.value = ''
     },
   })
 
