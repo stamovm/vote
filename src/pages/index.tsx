@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRef } from 'react'
 import { trpc } from '../utils/trpc'
 // import { prisma } from '../server/db/client'
@@ -49,9 +50,13 @@ const Home: NextPage = () => {
 
         {data ? (
           data.map((q) => (
-            <p key={q.id} className="mb-2 text-xl text-blue-500">
-              {q.question}
-            </p>
+            <Link href={`/question/${q.id}`} key={q.id}>
+              <a>
+                <p className="mb-2 text-xl text-blue-500 hover:text-blue-700 motion-safe:hover:scale-105 duration-300">
+                  {q.question}
+                </p>
+              </a>
+            </Link>
           ))
         ) : (
           <p>Loading..</p>
