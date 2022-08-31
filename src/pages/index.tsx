@@ -59,7 +59,7 @@ const Home: NextPage = () => {
             </Link>
           ))
         ) : (
-          <p>Loading..</p>
+          <p className="animate-bounce">Loading..</p>
         )}
 
         <QuestionCreator />

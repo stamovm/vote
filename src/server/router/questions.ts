@@ -10,7 +10,7 @@ export const questionsRouter = createRouter()
   .query('get-by-id', {
     input: z.object({ id: z.string() }),
     async resolve({ input }) {
-      return await prisma.pollQuestion.findFirst({
+      return await prisma?.pollQuestion.findFirst({
         where: {
           id: input.id,
         },
