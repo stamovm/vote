@@ -10,7 +10,7 @@ const QuestionCreator: React.FC = () => {
   const client = trpc.useContext()
   const { mutate, isLoading } = trpc.useMutation('questions.create', {
     onSuccess: (data) => {
-      // console.log('success data: ', data)
+      console.log('success data: ', data)
       client.invalidateQueries(['questions.getAll'])
       if (!inputRef.current) return
       inputRef.current.value = ''
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
           data.map((q) => (
             <Link href={`/question/${q.id}`} key={q.id}>
               <a>
-                <p className="mb-2 text-xl text-blue-500 hover:text-blue-700 motion-safe:hover:scale-105 duration-300">
+                <p className=" mb-2 text-xl text-blue-500 hover:text-blue-700 motion-safe:hover:scale-105 duration-300">
                   {q.question}
                 </p>
               </a>

@@ -11,12 +11,17 @@ const QuestionsPageContent: React.FC<{ id: string }> = ({ id }) => {
   if (!isLoading && !data) {
     return <div>Question not found!</div>
   }
-
+  console.log('--data', data)
   return (
     <>
-      <div className="mb-2 text-4xl text-blue-500">{data?.question}</div>
+      <div className="mb-2 text-4xl text-blue-500">
+        {data?.question?.question}
+      </div>
+      {data?.isOwner && (
+        <div className="bg-red-300 rounded-md p-3">You are the owner!</div>
+      )}
       <div>
-        {(data?.options as string[])?.map((option, i) => (
+        {(data?.question?.options as string[])?.map((option, i) => (
           <>
             <input type="radio" id={id + i} name="option" value="30" />
             &nbsp;
